@@ -1,1 +1,15 @@
+name: WorkflownameCI
 
+on:
+  push:
+    branches:
+      - 'master'
+      - 'dev'
+
+jobs:
+  build:
+    name: 'Build and push'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6

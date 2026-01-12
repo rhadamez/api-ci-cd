@@ -6,6 +6,11 @@ on:
       - 'master'
       - 'dev'
 
+# with sensitive information, we need to pass this
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   build:
     name: 'Build and push'

@@ -10,17 +10,18 @@ jobs:
   build:
     name: 'Build and push'
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node: [24]
+    # strategy:
+    #   matrix:
+    #     node: [22,23,24]
 
     steps:
       - uses: actions/checkout@v6
 
-      - name: Setup node | ${{matrix.node}}
+    # - name: Setup node | ${{matrix.node}}
+      - name: Setup node
         uses: actions/setup-node@v6
         with:
-          node-version: ${{matrix.node}}
+          node-version: 24
           cache: 'yarn'
       - run: yarn
       - run: yarn run test
@@ -39,8 +40,20 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build docker image
-        run: docker build -t rhadamez/api-rocket:${{ steps.generate_tag.outputs.sha }} . # get from the steps of that id
+      # - name: Set up QEMU
+      #   uses: docker/setup-qemu-action@v3
 
-      - name: Push image
-        run: docker push rhadamez/api-rocket:${{ steps.generate_tag.outputs.sha }}
+      # - name: Set up Docker Buildx
+      #   uses: docker/setup-buildx-action@v3
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          tags: rhadamez/api-rocket:${{ steps.generate_tag.outputs.sha }},rhadamez/api-rocket:latest
+      
+      # - name: Build docker image
+      #   run: docker build -t rhadamez/api-rocket:${{ steps.generate_tag.outputs.sha }} .
+
+      # - name: Push image
+      #   run: docker push rhadamez/api-rocket:${{ steps.generate_tag.outputs.sha }}

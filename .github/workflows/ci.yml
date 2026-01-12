@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [22,23,24]
+        node: [24]
 
     steps:
       - uses: actions/checkout@v6
@@ -25,5 +25,13 @@ jobs:
       - run: yarn
       - run: yarn run test
 
+      # get the first 7 characters of the commit id
+      # then add the value of $SHA to github output (good practices)
+      - name: Generate tag from commit
+        id: generate_tag
+        run: |
+          SHA=$(echo $GITHUB_SHA | head -c7)
+          echo "sha=$SHA" >> $GITHUB_OUTPUT
+
       - name: Build docker image
-        run: docker build -t api-rocket:latest . # it is already in the root with the Dockerfile
+        run: docker build -t api-rocket:${{ steps.generate_tag.outputs.sha }} . # get from the steps of that id

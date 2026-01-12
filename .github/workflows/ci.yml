@@ -33,5 +33,14 @@ jobs:
           SHA=$(echo $GITHUB_SHA | head -c7)
           echo "sha=$SHA" >> $GITHUB_OUTPUT
 
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
       - name: Build docker image
-        run: docker build -t api-rocket:${{ steps.generate_tag.outputs.sha }} . # get from the steps of that id
+        run: docker build -t rhadamez/api-rocket:${{ steps.generate_tag.outputs.sha }} . # get from the steps of that id
+
+      - name: Push image
+        run: docker push rhadamez/api-rocket:${{ steps.generate_tag.outputs.sha }}

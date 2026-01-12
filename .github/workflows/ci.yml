@@ -24,3 +24,6 @@ jobs:
           cache: 'yarn'
       - run: yarn
       - run: yarn run test
+
+      - name: Build docker image
+        run: docker build -t api-rocket:latest . # it is already in the root with the Dockerfile

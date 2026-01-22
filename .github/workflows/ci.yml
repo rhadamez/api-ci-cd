@@ -68,7 +68,7 @@ jobs:
           access-role-arn: arn:aws:iam::278084719385:role/app-runner-role
           region: us-east-1
           cpu: 1
-          memory: 1
+          memory: 2
           port: 3000
 
       # - name: Login to Docker Hub

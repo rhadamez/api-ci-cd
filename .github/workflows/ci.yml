@@ -31,6 +31,11 @@ jobs:
       - run: yarn
       - run: yarn run test
 
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
       # get the first 7 characters of the commit id
       # then add the value of $SHA to github output (good practices)
       - name: Generate tag from commit
@@ -73,7 +78,7 @@ jobs:
           cpu: 1
           memory: 2
           port: 3000
-          wait-for-service-stability-seconds: 180 #arbitrary value
+          wait-for-service-stability-seconds: 220 #arbitrary value
       
       - name: App Runner Check
         run: echo "App Runner running... ${{ steps.deploy-app-runner.outputs.service-url }}"

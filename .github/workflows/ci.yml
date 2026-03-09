@@ -9,7 +9,7 @@ on:
 # with sensitive information, we need to pass this
 permissions:
   id-token: write
-  contents: read
+  contents: write
 
 jobs:
   build:
